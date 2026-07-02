@@ -1,12 +1,31 @@
+import os
 from firebase_admin import storage
 from datetime import timedelta
 from typing import Optional
 from .firebase_helper import initialize_firebase
 
 def get_bucket():
-    """Initializes Firebase Admin SDK if not already done, and returns default storage bucket."""
-    initialize_firebase()
-    return storage.bucket()
+    """Initializes Firebase Admin SDK if not already done, and returns default storage bucket. Falls back to a mock in DEBUG mode."""
+    try:
+        app = initialize_firebase()
+        if app is None:
+            raise ValueError("Firebase app not initialized")
+        return storage.bucket()
+    except Exception as e:
+        if os.getenv("DEBUG") == "True":
+            # Return a mock Storage bucket for local integration testing
+            class MockBlob:
+                def __init__(self, path):
+                    self.path = path
+                def upload_from_string(self, *args, **kwargs): pass
+                def delete(self, *args, **kwargs): pass
+                def generate_signed_url(self, *args, **kwargs):
+                    return f"https://firebasestorage.googleapis.com/mock-bucket/{self.path}"
+            class MockBucket:
+                def blob(self, path):
+                    return MockBlob(path)
+            return MockBucket()
+        raise e
 
 def upload_file(
     file_bytes: bytes,

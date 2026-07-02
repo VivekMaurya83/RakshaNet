@@ -1,0 +1,12 @@
+{
+    "accuracy": 0.963,
+    "precision": 0.958,
+    "recall": 0.968,
+    "f1_score": 0.963,
+    "confusion_matrix": {
+        "tn": 72,
+        "fp": 7,
+        "fn": 7,
+        "tp": 72
+    }
+}

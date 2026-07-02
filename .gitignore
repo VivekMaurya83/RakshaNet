@@ -69,5 +69,11 @@ web-build/
 .vscode/
 .idea/
 .DS_Store
-Thumbs.db
 .gemini/
+Thumbs.db
+
+# --- Temporary Uploads & Local Reports ---
+temp_uploads/
+reports/
+web-backend/temp_uploads/
+web-backend/reports/

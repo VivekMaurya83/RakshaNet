@@ -25,9 +25,9 @@ RakshaNet provides a comprehensive shield against these threats by linking citiz
 * **First-Class Neural Classifier**: Ingests suspect call files, extracts voice frequency characteristics, and executes inference via a **local ONNX speech model** to calculate synthetic probability.
 * **Security Shield**: Alerts users if the speaker is a human or an AI-generated voice clone, combating synthetic media extortion.
 
-### 3. 💵 Counterfeit Banknote Auditor (OpenCV + CNN + Gemini)
-* **Visual Preprocessing Pipeline**: Standardizes banknote uploads using **OpenCV** (contrast adjustments, resizing, Gaussian blur, Canny edge detection).
-* **Double Validation**: Runs preprocessed images through a **local CNN/YOLO model** to obtain an initial authenticity score, followed by **Gemini Vision** to identify and write descriptive reports on specific visual print anomalies.
+### 3. 💵 Counterfeit Banknote Auditor (OpenCV + CNN + Local ORB Matcher)
+* **Visual Preprocessing Pipeline**: Standardizes banknote uploads using **OpenCV** (RGB conversion, resizing to 224x224, and pixel normalization).
+* **Local Domain Validation**: Includes a **local ORB feature matching** check to verify if the uploaded image contains a currency note (rejecting selfies/surroundings), followed by a **local ONNX-based classification model** (EfficientNetB0) to check banknote authenticity and return RBI-compliant security explanations.
 
 ### 4. 🕸️ Fraud Network Intelligence (React Flow)
 * **Graph Correlation**: Automatically extracts phone numbers, mule bank accounts, suspect names, and UPI IDs from scam reports and links them together.
@@ -66,6 +66,15 @@ RakshaNet/
 ├── models/                           # Centralized Machine Learning models (ONNX files)
 │   ├── counterfeit/                  # Banknote visual classification models
 │   └── deepfake_voice/               # Waveform voice clone classification models
+│
+├── training/                         # Offline Machine Learning model training pipelines
+│   ├── config.py                     # Training configuration (directories, batch size, learning rates)
+│   ├── prepare_dataset.py            # Splits dataset and prepares preprocessed image folders
+│   ├── train.py                      # Transfer learning training setup using EfficientNetB0
+│   ├── evaluate.py                   # Computes validation stats (accuracy, precision, recall, F1, CM)
+│   ├── export_model.py               # Exporter from Keras checkpoints to high-performance ONNX format
+│   ├── predict.py                    # Standalone ONNX runtime prediction CLI tool
+│   └── utils.py                      # Shared preprocessors for training and inference consistency
 │
 ├── shared/                           # Shared Python package imported by both backends
 │   ├── models/                       # Type-safe Pydantic definitions (scam, currency, graph, evidence)
@@ -133,7 +142,26 @@ uvicorn app.main:app --host 0.0.0.0 --port 8001 --reload
 
 </details>
 
-### 2. Frontend Launch Setup
+### 2. Machine Learning Model Training (Optional)
+
+<details>
+<summary>📂 Training & Exporting the Banknote Classifier</summary>
+
+```bash
+cd training
+python -m venv venv
+source venv/bin/activate  # Windows: venv\Scripts\activate
+pip install -r requirements.txt
+python prepare_dataset.py
+python train.py
+python evaluate.py
+python export_model.py
+python predict.py <path_to_banknote_image>
+```
+
+</details>
+
+### 3. Frontend & Mobile Setup
 
 <details>
 <summary>📂 Running the React Web Dashboard</summary>

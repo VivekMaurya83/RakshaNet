@@ -1,6 +1,4 @@
 {
-  "0": "genuine_500",
-  "1": "counterfeit_500",
-  "2": "genuine_200",
-  "3": "counterfeit_200"
+    "0": "Counterfeit",
+    "1": "Genuine"
 }
