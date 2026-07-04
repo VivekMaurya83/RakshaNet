@@ -4,6 +4,8 @@ from app.core.config import settings
 from app.api.v1 import api_router
 from shared.utils import initialize_firebase
 
+from fastapi.middleware.gzip import GZipMiddleware
+
 # Init Firebase Admin SDK
 initialize_firebase()
 
@@ -13,6 +15,9 @@ app = FastAPI(
     version="1.0.0",
     debug=settings.DEBUG
 )
+
+# Gzip Compression Middleware
+app.add_middleware(GZipMiddleware, minimum_size=1000)
 
 # CORS configuration
 app.add_middleware(

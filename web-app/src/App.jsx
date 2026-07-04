@@ -5,6 +5,7 @@ import Heatmap from './pages/Heatmap'
 import CurrencyAnalysis from './pages/CurrencyAnalysis'
 import EvidenceCenter from './pages/EvidenceCenter'
 import Settings from './pages/Settings'
+import PatternLinker from './pages/PatternLinker'
 
 export default function App() {
   const [activeTab, setActiveTab] = useState('dashboard')
@@ -23,6 +24,7 @@ export default function App() {
               { id: 'currency', name: 'Counterfeit Currency' },
               { id: 'network', name: 'Fraud Network Graph' },
               { id: 'heatmap', name: 'Geospatial Heatmap' },
+              { id: 'pattern-linker', name: 'Cross-State Linker' },
               { id: 'evidence', name: 'Evidence Packages' },
               { id: 'settings', name: 'Settings' }
             ].map(tab => (
@@ -69,6 +71,7 @@ export default function App() {
           {activeTab === 'currency' && <CurrencyAnalysis />}
           {activeTab === 'network' && <FraudGraph />}
           {activeTab === 'heatmap' && <Heatmap />}
+          {activeTab === 'pattern-linker' && <PatternLinker />}
           {activeTab === 'evidence' && <EvidenceCenter />}
           {activeTab === 'settings' && <Settings />}
         </section>

@@ -12,3 +12,10 @@ python-multipart>=0.0.9
 httpx>=0.27.0
 # Reference local shared package
 -e ../shared
+pandas>=2.0.0
+networkx>=3.0
+pyvis>=0.3.1
+scikit-learn>=1.0.0
+python-louvain>=0.16
+torch>=2.0.0
+torch-geometric>=2.3.0
