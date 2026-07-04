@@ -71,3 +71,4 @@ web-build/
 .DS_Store
 Thumbs.db
 .gemini/
+/dataset/Paysim-graph-dataset.csv
